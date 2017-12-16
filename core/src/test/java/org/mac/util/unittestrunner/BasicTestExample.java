@@ -1,26 +1,16 @@
 package org.mac.util.unittestrunner;
 
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mac.util.unittestrunner.config.Beans;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader=AnnotationConfigContextLoader.class, classes=Beans.class)
-public class SpringTestRunner {
-	
-	@Autowired
-    private ApplicationContext applicationContext;
+public class BasicTestExample extends SpringTestRunnerBase {
+
 	
 	@Test
     public void testAppContext() {
@@ -59,5 +49,22 @@ public class SpringTestRunner {
 		HttpDAO httpDAO = (HttpDAO) applicationContext.getBean("httpauth");
 		String url = httpDAO.getUrl();
 		assertEquals("Invalid url", "http://ssdfsdf:5656", url);
+	}
+	
+	@Test
+	public void trimUrlTest() {
+		assertEquals("asdf.sdfsdf.sdfsd:45456", Beans.trimUrl("http://asdf.sdfsdf.sdfsd:45456/dsgf"));
+		assertEquals("asdf.sdfsdf.sdfsd:45456", Beans.trimUrl("jdbc:mysql://asdf.sdfsdf.sdfsd:45456/dsgf"));
+		assertEquals("asdf.sdfsdf.sdfsd:45456", Beans.trimUrl("http://asdf.sdfsdf.sdfsd:45456/"));
+		assertEquals("asdf.sdfsdf.sdfsd", Beans.trimUrl("http://asdf.sdfsdf.sdfsd/dsgf"));
+		assertEquals("asdf.sdfsdf.sdfsd:45456", Beans.trimUrl("http://asdf.sdfsdf.sdfsd:45456"));
+		assertEquals("asdf.sdfsdf.sdfsd", Beans.trimUrl("http://asdf.sdfsdf.sdfsd"));
+		
+		assertEquals("asdf.sdfsdf.sdfsd:45456", Beans.trimUrl("asdf.sdfsdf.sdfsd:45456/dsgf"));
+		assertEquals("asdf.sdfsdf.sdfsd:45456", Beans.trimUrl("asdf.sdfsdf.sdfsd:45456/"));
+		assertEquals("asdf.sdfsdf.sdfsd", Beans.trimUrl("asdf.sdfsdf.sdfsd/dsgf"));
+		assertEquals("asdf.sdfsdf.sdfsd:45456", Beans.trimUrl("asdf.sdfsdf.sdfsd:45456"));
+		assertEquals("asdf.sdfsdf.sdfsd", Beans.trimUrl("asdf.sdfsdf.sdfsd"));
+		
 	}
 }

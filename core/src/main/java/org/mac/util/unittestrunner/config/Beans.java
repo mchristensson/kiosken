@@ -98,10 +98,12 @@ public class Beans {
 		}
 	}
 
-	public static String trimUrl(String dbUrl) {
+	public static String trimUrl(final String dbUrl) {
 		int n = dbUrl.indexOf("://");
-		dbUrl = n > -1 ? dbUrl.substring(n) : dbUrl;
-		dbUrl = dbUrl.endsWith("/") ? dbUrl : dbUrl + "/";
-		return dbUrl;
+		String url = n > -1 ? dbUrl.substring(n+3) : dbUrl;
+		int m = url.indexOf('/');
+		url = m > -1? url.substring(0, m) : url;
+		logger.warn("Syntax of url '{}' invalid. Replaced with {}", dbUrl, url);
+		return url;
 	}
 }
