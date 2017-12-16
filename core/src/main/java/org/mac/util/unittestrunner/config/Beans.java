@@ -8,7 +8,6 @@ import org.mac.util.unittestrunner.HttpDAO;
 import org.mac.util.unittestrunner.HttpDAOImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
